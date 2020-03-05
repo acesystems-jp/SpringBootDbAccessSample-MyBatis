@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.acesystems.mybatissample.repository.EmployeeMapper">
+	<select id="findById" parameterType="int" resultType="EmployeeDataModel">
+		SELECT
+			id,
+			name,
+			code,
+			last_update_datetime,
+			last_update_employee_id
+		FROM
+			employee
+		WHERE
+			id = ${id}
+	</select>
+
+
+
+</mapper>
