@@ -41,8 +41,7 @@ create table if not exists `denpyo_detail` (
 	`last_update_datetime` datetime NOT NULL,
 	`last_update_employee_id` int(11) unsigned NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `FK_DENPYO_DETAIL_DENPYO_idx` (`denpyo_id`),
-	-- .伝票の削除・更新には自動追従
+	-- 伝票の削除・更新には自動追従
 	CONSTRAINT `FK_DENPYO_DETAIL_DENPYO` FOREIGN KEY (`denpyo_id`) REFERENCES `denpyo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	-- 商品マスタの削除時はリアクションなし。更新は自動追従
 	CONSTRAINT `FK_DENPYO_DETAIL_ITEM` FOREIGN KEY (`item_code`) REFERENCES `item` (`code`) ON DELETE NO ACTION ON UPDATE CASCADE

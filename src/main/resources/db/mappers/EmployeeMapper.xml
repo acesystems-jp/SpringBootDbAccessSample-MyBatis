@@ -3,6 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.acesystems.mybatissample.repository.EmployeeMapper">
+	<!--
+		idを指定して1件取得する 
+	 -->
 	<select id="findById" parameterType="int" resultType="EmployeeDataModel">
 		SELECT
 			id,
@@ -13,9 +16,60 @@
 		FROM
 			employee
 		WHERE
-			id = ${id}
+			id = #{id}
 	</select>
 
+	<!--
+		全件取得する 
+	 -->
+	<select id="findAll" resultType="EmployeeDataModel">
+		SELECT
+			id,
+			name,
+			code,
+			last_update_datetime,
+			last_update_employee_id
+		FROM
+			employee
+		ORDER BY
+			id
+	</select>
 
+	<!--
+		1件登録 IDがnullの時はDBの機能で採番する 
+		useGeneratedKeys ... データベースの自動生成機能でPK値を取得するオプション
+		keyProperty ... PK項目を指定するオプション。処理後にパラメータオブジェクトのPK項目に取得したPK値を設定する。
+	 -->
+	<insert id="insert" parameterType="EmployeeDataModel" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO employee
+		(
+			<if test='id != null'>
+			id,
+			</if>
+			name,
+			code,
+			last_update_datetime,
+			last_update_employee_id
+		) VALUES (
+			<if test='id != null'>
+			#{id},
+			</if>
+			#{name},
+			#{code},
+			#{lastUpdateDatetime},
+			#{lastUpdateEmployeeId}
+		)
+	</insert>
+
+	<update id="update" parameterType="EmployeeDataModel">
+		UPDATE employee
+		SET
+			name = #{name},
+			code = #{code},
+			last_update_datetime = #{lastUpdateDatetime},
+			last_update_employee_id = #{lastUpdateEmployeeId}
+		WHERE
+			id = ${id}
+	</update>
 
 </mapper>

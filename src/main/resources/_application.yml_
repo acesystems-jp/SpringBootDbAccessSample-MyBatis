@@ -1,0 +1,9 @@
+# MyBatisの設定
+mybatis:
+  # SQLを記載したXMLファイルの格納場所。ここではsrc/main/resources/db/mappersの下を指定
+  mapper-locations: classpath:db/mappers/**/*.xml
+  # xmlで使うタイプ（ResultType、ParameterType）のパッケージ名を省略できるよう設定
+  type-aliases-package: jp.co.acesystems.mybatissample.repository.datamodel
+  # SQL項目(主にSELECT句)のアンダースコアをキャメルケースに変換して自動マッピングするための設定
+  configuration:
+    map-underscore-to-camel-case: true

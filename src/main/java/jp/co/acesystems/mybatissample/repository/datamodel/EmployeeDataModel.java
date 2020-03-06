@@ -1,6 +1,7 @@
 package jp.co.acesystems.mybatissample.repository.datamodel;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 社員データモデル
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
  * @author U0268
  *
  */
-public class EmployeeDataModel {
+public class EmployeeDataModel implements HavingSinglePk<Integer> {
 	/** id */
 	private Integer id;
 	/** 氏名 */
@@ -43,6 +44,9 @@ public class EmployeeDataModel {
 		this(null, name, code, lastUpdateDatetime, lastUpdateEmployeeId);
 	}
 	
+	public EmployeeDataModel clone() {
+		return new EmployeeDataModel(this.id, this.name, this.code, this.lastUpdateDatetime, this.lastUpdateEmployeeId);
+	}
 	
 	
 	/**
