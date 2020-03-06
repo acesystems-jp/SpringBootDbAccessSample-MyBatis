@@ -1,7 +1,6 @@
 package jp.co.acesystems.mybatissample.repository.datamodel;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * 社員データモデル
@@ -21,10 +20,15 @@ public class EmployeeDataModel implements HavingSinglePk<Integer> {
 	/** 更新ユーザー */
 	private Integer lastUpdateEmployeeId;
 
-	public EmployeeDataModel() {
-		
-	}
-	
+	/**
+	 * コンストラクタ
+	 * 全項目指定する
+	 * @param id
+	 * @param name
+	 * @param code
+	 * @param lastUpdateDatetime
+	 * @param lastUpdateEmployeeId
+	 */
 	public EmployeeDataModel(Integer id,
 			String name,
 			String code,
@@ -37,6 +41,14 @@ public class EmployeeDataModel implements HavingSinglePk<Integer> {
 		this.lastUpdateEmployeeId = lastUpdateEmployeeId;
 	}
 	
+	/**
+	 * コンストラクタ
+	 * ID以外の項目を元にインスタンス生成
+	 * @param name
+	 * @param code
+	 * @param lastUpdateDatetime
+	 * @param lastUpdateEmployeeId
+	 */
 	public EmployeeDataModel(String name,
 			String code,
 			LocalDateTime lastUpdateDatetime,

@@ -25,7 +25,7 @@ import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
  */
 @MybatisTest
 @Sql(scripts = "/unit/EmployeeMapperTest.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-//@Sql(scripts = "/unit/AllDelete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
+//@Sql(scripts = "/unit/AllDelete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)	//インメモリH2DBなのでテストケース毎に勝手にクリアされる
 class EmployeeMapperTest {
 
 	@Autowired
