@@ -1,14 +1,16 @@
-package jp.co.acesystems.mybatissample.repository;
+package jp.co.acesystems.mybatissample.repository.employee;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -31,11 +33,19 @@ class EmployeeMapperTest {
 	@Autowired
 	EmployeeMapper mapper;
 	
+	EmployeeDataSource source;
+	
+	
+	@BeforeEach
+	void beforeAll() {
+		source = new EmployeeDataSource(mapper);
+	}
+	
 	@Test
 	@DisplayName("PK指定-1件取得")
 	void findById() {
 		Integer id = Integer.valueOf(1);
-		Optional<EmployeeDataModel> model = mapper.findById(id);
+		Optional<EmployeeDataModel> model = source.findById(id);
 		
 		assertTrue(model.isPresent());
 		
@@ -48,10 +58,10 @@ class EmployeeMapperTest {
 	void insert() {
 		EmployeeDataModel entity = new EmployeeDataModel("野口", "u1876", LocalDateTime.of(2020, 3, 6, 16, 47, 23), 1);
 		// 登録前の件数
-		int count = mapper.findAll().size();
+		int count = source.findAll().size();
 		
 		// 登録実行
-		EmployeeDataModel saved = mapper.save(entity);
+		EmployeeDataModel saved = source.save(entity);
 		
 		
 		// idが自動取得されてnullでない
@@ -65,7 +75,7 @@ class EmployeeMapperTest {
 		
 		
 		// 登録後に件数が1件増えている
-		List<EmployeeDataModel> list = mapper.findAll();
+		List<EmployeeDataModel> list = source.findAll();
 		assertEquals(count + 1, list.size());
 	}
 	
@@ -76,13 +86,13 @@ class EmployeeMapperTest {
 		// 更新用データを登録
 		EmployeeDataModel entity = new EmployeeDataModel(100, "馬宿", "u0600", LocalDateTime.of(2020, 3, 6, 18, 3, 5), 1);
 		
-		EmployeeDataModel saved = mapper.save(entity);
+		EmployeeDataModel saved = source.save(entity);
 		assertEquals(entity.getId(), saved.getId());
 		
 		
 		// 更新処理
 		EmployeeDataModel update = new EmployeeDataModel(100, "皇子", "u0599", entity.getLastUpdateDatetime().plusMinutes(1), 2);
-		EmployeeDataModel updated = mapper.save(update);
+		EmployeeDataModel updated = source.save(update);
 		
 		
 		// 更新後の値が更新用オブジェクトの値になっている
@@ -100,5 +110,20 @@ class EmployeeMapperTest {
 		assertNotEquals(entity.getLastUpdateEmployeeId(), updated.getLastUpdateEmployeeId());
 	}
 	
-
+	@Test
+	@DisplayName("登録処理、一意制約違反")
+	void duplicate() {
+		
+		EmployeeDataModel entity_1 = new EmployeeDataModel("松坂", "u1980", LocalDateTime.of(2020, 3, 9, 13, 20, 15), 1);
+		EmployeeDataModel entity_2 = new EmployeeDataModel("藤川", "u1980", LocalDateTime.of(2020, 3, 9, 13, 20, 16), 1);
+		
+		source.save(entity_1);
+		
+		// 重複を検出
+		assertTrue(source.exists(entity_2));
+		
+		// 一意制約違反が発生したら DuplicateKeyException をThrowする
+		assertThrows(org.springframework.dao.DuplicateKeyException.class, () -> source.save(entity_2));
+		
+	}
 }

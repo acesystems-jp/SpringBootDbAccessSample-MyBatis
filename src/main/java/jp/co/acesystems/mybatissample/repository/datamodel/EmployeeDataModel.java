@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * @author U0268
  *
  */
-public class EmployeeDataModel implements HavingSinglePk<Integer> {
+public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	/** id */
 	private Integer id;
 	/** 氏名 */

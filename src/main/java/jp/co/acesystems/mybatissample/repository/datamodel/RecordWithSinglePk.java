@@ -6,7 +6,7 @@ package jp.co.acesystems.mybatissample.repository.datamodel;
  *
  * @param <T> PK項目の型
  */
-public interface HavingSinglePk<T> extends Cloneable {
+public interface RecordWithSinglePk<T> extends Cloneable {
 	/**
 	 * PK項目
 	 * @return
