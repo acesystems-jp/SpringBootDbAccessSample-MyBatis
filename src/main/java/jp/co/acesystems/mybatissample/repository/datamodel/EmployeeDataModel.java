@@ -1,6 +1,6 @@
 package jp.co.acesystems.mybatissample.repository.datamodel;
 
-import java.time.LocalDateTime;
+import jp.co.acesystems.mybatissample.domain.type.DateTime;
 
 /**
  * 社員データモデル
@@ -16,10 +16,17 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	/** 社員コード */
 	private String code;
 	/** 更新日時 */
-	private LocalDateTime lastUpdateDatetime;
+	private DateTime lastUpdateDatetime;
 	/** 更新ユーザー */
 	private Integer lastUpdateEmployeeId;
 
+	/**
+	 * MyBatisが使うためのコンストラクタ
+	 */
+	@Deprecated
+	public EmployeeDataModel() {
+		
+	}
 	/**
 	 * コンストラクタ
 	 * 全項目指定する
@@ -32,7 +39,7 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	public EmployeeDataModel(Integer id,
 			String name,
 			String code,
-			LocalDateTime lastUpdateDatetime,
+			DateTime lastUpdateDatetime,
 			Integer lastUpdateEmployeeId) {
 		this.id = id;
 		this.name = name;
@@ -51,11 +58,16 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	 */
 	public EmployeeDataModel(String name,
 			String code,
-			LocalDateTime lastUpdateDatetime,
+			DateTime lastUpdateDatetime,
 			Integer lastUpdateEmployeeId) {
 		this(null, name, code, lastUpdateDatetime, lastUpdateEmployeeId);
 	}
 	
+	/**
+	 * クローン
+	 * インスタンスをディープコピーする
+	 */
+	@Override
 	public EmployeeDataModel clone() {
 		return new EmployeeDataModel(this.id, this.name, this.code, this.lastUpdateDatetime, this.lastUpdateEmployeeId);
 	}
@@ -82,7 +94,7 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	/**
 	 * @return the lastUpdateDatetime
 	 */
-	public LocalDateTime getLastUpdateDatetime() {
+	public DateTime getLastUpdateDatetime() {
 		return lastUpdateDatetime;
 	}
 	/**

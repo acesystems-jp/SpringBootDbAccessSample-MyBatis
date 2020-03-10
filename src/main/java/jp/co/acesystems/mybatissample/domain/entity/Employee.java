@@ -1,10 +1,8 @@
 package jp.co.acesystems.mybatissample.domain.entity;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jp.co.acesystems.mybatissample.domain.type.DateTime;
 import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 
 /**
@@ -20,7 +18,7 @@ public class Employee {
 	/** 社員コード */
 	private String code;
 	/** 更新日時 */
-	private LocalDateTime lastUpdateDatetime;
+	private DateTime lastUpdateDatetime;
 	/** 更新ユーザー */
 	private Integer lastUpdateEmployeeId;
 	
@@ -63,20 +61,20 @@ public class Employee {
 	 * @return 更新日時
 	 */
 	@JsonIgnore
-	public LocalDateTime getLastUpdateDatetimeByLocalDateTime() {
+	public DateTime getLastUpdateDatetimeByLocalDateTime() {
 		return lastUpdateDatetime;
 	}
 	/**
 	 * @return 更新日時をISODatetimeフォーマット編集して返す
 	 */
 	public String getLastUpdateDatetime() {
-		return lastUpdateDatetime.format(DateTimeFormatter.ISO_DATE_TIME);
+		return lastUpdateDatetime.getString();
 	}
 	/**
 	 * @return 更新日時を日本語フォーマット編集して返す
 	 */
 	public String getLastUpdateDatetimeJp() {
-		return lastUpdateDatetime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH時mm分ss秒"));
+		return lastUpdateDatetime.getJpString();
 	}
 
 	/**

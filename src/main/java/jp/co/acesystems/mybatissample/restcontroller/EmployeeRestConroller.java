@@ -1,13 +1,12 @@
 package jp.co.acesystems.mybatissample.restcontroller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.acesystems.mybatissample.domain.entity.Employee;
+import jp.co.acesystems.mybatissample.domain.type.DateTime;
 import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataSource;
 
@@ -43,7 +42,7 @@ public class EmployeeRestConroller {
 		}
 		
 		var ex = model.get();
-		var copy = new EmployeeDataModel(ex.getName(), ex.getCode(), LocalDateTime.now(), 99);
+		var copy = new EmployeeDataModel(ex.getName(), ex.getCode(), DateTime.Now(), 99);
 		employeeDataSource.save(copy);
 		return new Employee(copy);
 	}

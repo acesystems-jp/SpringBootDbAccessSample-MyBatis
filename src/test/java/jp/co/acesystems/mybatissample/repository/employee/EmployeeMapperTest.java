@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+import jp.co.acesystems.mybatissample.domain.type.DateTime;
 import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 
 /**
- * 
+ * 社員テーブル処理のテスト
  * @author U0268
  *
  */
-@MybatisTest
+@MybatisTest	// データベース設定（DataSource）やMapperなどをDIコンテナに格納
 @Sql(scripts = "/unit/EmployeeMapperTest.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 //@Sql(scripts = "/unit/AllDelete.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)	//インメモリH2DBなのでテストケース毎に勝手にクリアされる
 class EmployeeMapperTest {
@@ -56,7 +56,7 @@ class EmployeeMapperTest {
 	@Test
 	@DisplayName("登録処理")
 	void insert() {
-		EmployeeDataModel entity = new EmployeeDataModel("野口", "u1876", LocalDateTime.of(2020, 3, 6, 16, 47, 23), 1);
+		EmployeeDataModel entity = new EmployeeDataModel("野口", "u1876", DateTime.of(2020, 3, 6, 16, 47, 23), 1);
 		// 登録前の件数
 		int count = source.findAll().size();
 		
@@ -84,7 +84,7 @@ class EmployeeMapperTest {
 	void update() {
 		
 		// 更新用データを登録
-		EmployeeDataModel entity = new EmployeeDataModel(100, "馬宿", "u0600", LocalDateTime.of(2020, 3, 6, 18, 3, 5), 1);
+		EmployeeDataModel entity = new EmployeeDataModel(100, "馬宿", "u0600", DateTime.of(2020, 3, 6, 18, 3, 5), 1);
 		
 		EmployeeDataModel saved = source.save(entity);
 		assertEquals(entity.getId(), saved.getId());
@@ -114,8 +114,8 @@ class EmployeeMapperTest {
 	@DisplayName("登録処理、一意制約違反")
 	void duplicate() {
 		
-		EmployeeDataModel entity_1 = new EmployeeDataModel("松坂", "u1980", LocalDateTime.of(2020, 3, 9, 13, 20, 15), 1);
-		EmployeeDataModel entity_2 = new EmployeeDataModel("藤川", "u1980", LocalDateTime.of(2020, 3, 9, 13, 20, 16), 1);
+		EmployeeDataModel entity_1 = new EmployeeDataModel("松坂", "u1980", DateTime.of(2020, 3, 9, 13, 20, 15), 1);
+		EmployeeDataModel entity_2 = new EmployeeDataModel("藤川", "u1980", DateTime.of(2020, 3, 9, 13, 20, 16), 1);
 		
 		source.save(entity_1);
 		

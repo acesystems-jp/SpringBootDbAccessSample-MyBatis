@@ -11,7 +11,7 @@
 			id,
 			name,
 			code,
-			last_update_datetime,
+			last_update_datetime as "last_update_datetime.value",
 			last_update_employee_id
 		FROM
 			employee
@@ -24,7 +24,7 @@
 			id,
 			name,
 			code,
-			last_update_datetime,
+			last_update_datetime as "last_update_datetime.value",
 			last_update_employee_id
 		FROM
 			employee
@@ -40,7 +40,7 @@
 			id,
 			name,
 			code,
-			last_update_datetime,
+			last_update_datetime as "last_update_datetime.value",
 			last_update_employee_id
 		FROM
 			employee
@@ -69,7 +69,7 @@
 			</if>
 			#{name},
 			#{code},
-			#{lastUpdateDatetime},
+			#{lastUpdateDatetime.value},
 			#{lastUpdateEmployeeId}
 		)
 	</insert>
@@ -79,7 +79,7 @@
 		SET
 			name = #{name},
 			code = #{code},
-			last_update_datetime = #{lastUpdateDatetime},
+			last_update_datetime = #{lastUpdateDatetime.value},
 			last_update_employee_id = #{lastUpdateEmployeeId}
 		WHERE
 			id = ${id}
@@ -102,7 +102,7 @@
 			#{savedata.id},
 			#{savedata.name},
 			#{savedata.code},
-			#{savedata.lastUpdateDatetime},
+			#{savedata.lastUpdateDatetime.value},
 			#{savedata.lastUpdateEmployeeId},
 			Now(),
 			#{operation}
