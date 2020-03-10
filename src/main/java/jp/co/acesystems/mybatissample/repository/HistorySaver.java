@@ -11,12 +11,6 @@ import jp.co.acesystems.mybatissample.repository.datamodel.RecordWithSinglePk;
  */
 public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 	
-	private enum Operation{
-		INSERT,
-		UPDATE,
-		DELETE
-	}
-
 	MapperWithHistory<T, PK> mapper;
 	
 	/**
@@ -41,12 +35,12 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 		// idが無ければInsert
 		if(savedata.getId() == null) {
 			mapper.insert(working); 
-			mapper.insertHistory((T)working.clone(), Operation.INSERT.toString());
+			mapper.insertHistory((T)working.clone(), HistoryOperation.INSERT.toString());
 			return working;
 		}
 		
 		// idがあれば更新
-		int cnt = mapper.insertHistoryById(working.getId(), Operation.UPDATE.toString());
+		int cnt = mapper.insertHistoryById(working.getId(), HistoryOperation.UPDATE.toString());
 		if(cnt > 0) {
 			mapper.update(working);
 			return working;
@@ -54,7 +48,7 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 		
 		// 更新対象がなければInsert
 		mapper.insert(working);
-		mapper.insertHistory((T)working.clone(), Operation.INSERT.toString());
+		mapper.insertHistory((T)working.clone(), HistoryOperation.INSERT.toString());
 		return working;
 	}
 	
@@ -64,7 +58,7 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 	 */
 	public void delete(final PK pk) {
 		
-		mapper.insertHistoryById(pk, Operation.DELETE.toString());
+		mapper.insertHistoryById(pk, HistoryOperation.DELETE.toString());
 		mapper.delete(pk);
 	}
 }

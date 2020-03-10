@@ -18,7 +18,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
+import jp.co.acesystems.mybatissample.repository.HistoryOperation;
 import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
+import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryDataModel;
+import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryMapper;
 
 /**
  * 社員テーブル処理のテスト
@@ -34,6 +37,9 @@ class EmployeeMapperTest {
 	EmployeeMapper mapper;
 	
 	EmployeeDataSource source;
+	
+	@Autowired
+	EmployeeHistoryMapper historyMapper;
 	
 	
 	@BeforeEach
@@ -83,6 +89,9 @@ class EmployeeMapperTest {
 	@DisplayName("更新処理")
 	void update() {
 		
+		
+		DateTime now = DateTime.Now();
+		
 		// 更新用データを登録
 		EmployeeDataModel entity = new EmployeeDataModel(100, "馬宿", "u0600", DateTime.of(2020, 3, 6, 18, 3, 5), 1);
 		
@@ -108,6 +117,42 @@ class EmployeeMapperTest {
 		assertNotEquals(entity.getCode(), updated.getCode());
 		assertNotEquals(entity.getLastUpdateDatetime(), updated.getLastUpdateDatetime());
 		assertNotEquals(entity.getLastUpdateEmployeeId(), updated.getLastUpdateEmployeeId());
+		
+		
+		// 履歴テーブル取得
+		List<EmployeeHistoryDataModel> history = historyMapper.findByBaseId(entity.getId());
+		assertEquals(2, history.size());
+		
+		// INSERTの履歴が登録されている
+		Optional<EmployeeHistoryDataModel> history_1
+			= history.stream()
+			.filter(e -> e.getName().equals(entity.getName()))
+			.findFirst();
+		
+		assertTrue(history_1.isPresent());
+		assertEquals(entity.getCode(),  history_1.get().getCode());
+		assertEquals(HistoryOperation.INSERT.toString(), history_1.get().getOperation());
+		assertTrue(history_1.get().getOperationDatetime().isAfter(now));
+		
+
+		// UPDATE前の履歴が登録されている
+		Optional<EmployeeHistoryDataModel> history_2
+			= history.stream()
+			.filter(e -> e.getOperation().equals(HistoryOperation.UPDATE.toString()))
+			.findFirst();
+		
+		assertTrue(history_2.isPresent());
+		assertEquals(entity.getCode(),  history_2.get().getCode());
+		assertEquals(entity.getName(), history_2.get().getName());
+		
+
+		// UPDATE後の履歴は入っていない
+		Optional<EmployeeHistoryDataModel> history_3
+			= history.stream()
+			.filter(e -> e.getName().equals(update.getName()))
+			.findFirst();
+		
+		assertTrue(history_3.isEmpty());
 	}
 	
 	@Test

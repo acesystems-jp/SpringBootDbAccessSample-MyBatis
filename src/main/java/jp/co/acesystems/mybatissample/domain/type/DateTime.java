@@ -29,7 +29,7 @@ public class DateTime {
 	
 	public DateTime(String value) {
 		
-		this.value = LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE);
+		this.value = LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
 	}
 	
 	private DateTime(LocalDateTime value) {
@@ -37,7 +37,7 @@ public class DateTime {
 	}
 	
 	public String getString() {
-		return value.format(DateTimeFormatter.BASIC_ISO_DATE);
+		return value.format(DateTimeFormatter.ISO_DATE_TIME);
 	}
 	
 	public String getJpString() {
@@ -62,5 +62,13 @@ public class DateTime {
 	}
 	public DateTime minusMinutes(long minutes) {
 		return new DateTime(this.value.minusMinutes(minutes));
+	}
+	
+	public boolean isAfter(DateTime from) {
+		return value.isAfter(from.value);
+	}
+	
+	public boolean isBefore(DateTime from) {
+		return value.isBefore(from.value);
 	}
 }

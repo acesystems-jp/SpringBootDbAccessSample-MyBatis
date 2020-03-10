@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryMapper">
+	<!--
+		idを指定して1件取得する 
+	 -->
+	<select id="findByBaseId" parameterType="int" resultType="jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryDataModel">
+		SELECT
+			id,
+			name,
+			code,
+			last_update_datetime as "last_update_datetime.value",
+			last_update_employee_id,
+			operation_datetime AS "operation_datetime.value",
+			operation
+		FROM
+			employee_history
+		WHERE
+			id = #{id}
+	</select>
+</mapper>
