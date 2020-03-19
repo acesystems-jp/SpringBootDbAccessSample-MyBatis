@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,6 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
 import jp.co.acesystems.mybatissample.repository.HistoryOperation;
-import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryDataModel;
 import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryMapper;
 
@@ -87,10 +87,13 @@ class EmployeeMapperTest {
 	
 	@Test
 	@DisplayName("更新処理")
-	void update() {
+	void update() throws InterruptedException {
 		
 		
 		DateTime now = DateTime.Now();
+		
+		// 更新日時に差ができるよう10ミリ秒だけ待つ
+		TimeUnit.MILLISECONDS.sleep(10);
 		
 		// 更新用データを登録
 		EmployeeDataModel entity = new EmployeeDataModel(100, "馬宿", "u0600", DateTime.of(2020, 3, 6, 18, 3, 5), 1);

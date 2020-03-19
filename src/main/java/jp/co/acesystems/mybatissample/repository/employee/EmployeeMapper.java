@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import jp.co.acesystems.mybatissample.repository.MapperWithHistory;
-import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 
 /**
  * 社員マスタを操作するMybatisのMapperInterface

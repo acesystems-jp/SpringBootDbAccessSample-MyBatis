@@ -1,7 +1,5 @@
 package jp.co.acesystems.mybatissample.repository;
 
-import jp.co.acesystems.mybatissample.repository.datamodel.RecordWithSinglePk;
-
 /**
  * Insert、Updateと同時に履歴テーブルに1件書き込む処理を受け持つ
  * @author U0268

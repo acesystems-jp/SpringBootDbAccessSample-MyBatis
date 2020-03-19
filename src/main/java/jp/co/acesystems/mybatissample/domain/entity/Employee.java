@@ -3,7 +3,7 @@ package jp.co.acesystems.mybatissample.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
+import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataModel;
 
 /**
  * 社員クラス

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import jp.co.acesystems.mybatissample.repository.HistorySaver;
-import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
 
 /**
  * Mapperをそのまま使うとMyBatisの仕様に引きずられるので

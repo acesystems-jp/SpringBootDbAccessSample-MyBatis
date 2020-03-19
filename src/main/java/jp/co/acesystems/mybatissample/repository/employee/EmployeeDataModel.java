@@ -1,6 +1,7 @@
-package jp.co.acesystems.mybatissample.repository.datamodel;
+package jp.co.acesystems.mybatissample.repository.employee;
 
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
+import jp.co.acesystems.mybatissample.repository.RecordWithSinglePk;
 
 /**
  * 社員データモデル

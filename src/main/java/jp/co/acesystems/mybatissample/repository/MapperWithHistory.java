@@ -1,7 +1,5 @@
 package jp.co.acesystems.mybatissample.repository;
 
-import jp.co.acesystems.mybatissample.repository.datamodel.RecordWithSinglePk;
-
 /**
  * 履歴への書き込み処理を持ったMapperを表すInterface
  * @author U0268

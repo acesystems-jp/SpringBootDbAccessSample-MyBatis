@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.acesystems.mybatissample.domain.entity.Employee;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.datamodel.EmployeeDataModel;
+import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataModel;
 import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataSource;
 
 /**
