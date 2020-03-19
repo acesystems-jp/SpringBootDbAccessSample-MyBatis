@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.acesystems.mybatissample.dbaccess.denpyo.DenpyoMapper">
+
+	<sql id="columns">
+		denpyo.id AS id,
+		denpyo.denpyo_no AS denpyo_no,
+		denpyo.eda_no AS eda_no,
+		denpyo.denpyo_date AS denpyo_date,
+		denpyo.last_update_datetime AS "last_update_datetime.value",
+		denpyo.last_update_employee_id AS "last_update_employee_id"
+	</sql>	
+	<sql id="detailColumns">
+		dtl.id AS "details.id",
+		dtl.denpyo_id AS "details.denpyo_id",
+		dtl.row_no AS "details.row_no",
+		dtl.item_code AS "details.item_code",
+		dtl.suryo AS "details.suryo",
+		dtl.tanka AS "details.tanka",
+		dtl.last_update_datetime AS "details.last_update_datetime.value",
+		dtl.last_update_employee_id AS "details.last_update_employee_id"
+	</sql>
+	
+	<resultMap type="DenpyoDataModel" id="denpyoResult">
+		<id column="id" property="id" />
+		<result column="denpyo_no" property="denpyoNo"/>
+		<result column="eda_no" property="edaNo"/>
+		<result column="denpyo_date" property="denpyoDate.value"/>
+		<result column="last_update_datetime.value" property="lastUpdateDatetime.value"/>
+		<result column="last_update_employee_id" property="lastUpdateEmployeeId"/>
+		<collection property="details" ofType="DenpyoDetailDataModel">
+			<id column="details.id" property="id"/>
+			<result column="details.denpyo_id" property="denpyoId"/>
+			<result column="details..row_no" property="rowNo"/>
+			<result column="details.item_code" property="itemCode"/>
+			<result column="details.suryo" property="suryo"/>
+			<result column="details.tanka" property="tanka"/>
+			<result column="details.last_update_datetime.value" property="lastUpdateDatetime.value"/>
+			<result column="details.last_update_employee_id" property="lastUpdateEmployeeId"/>
+		</collection>
+	</resultMap>
+
+	<!--
+		idを指定して1件取得する 
+	 -->
+	<select id="findById" parameterType="int" resultMap="denpyoResult">
+		SELECT
+			<include refid="columns" />,
+			<include refid="detailColumns"/>
+	    FROM
+			denpyo
+		LEFT OUTER JOIN
+			denpyo_detail dtl
+		ON
+			dtl.denpyo_id = denpyo.id
+		WHERE
+			denpyo.id = #{id}
+	</select>
+
+	<!--
+		idを指定して1件取得する 
+	 -->
+	<select id="findByDate" parameterType="jp.co.acesystems.mybatissample.domain.type.Date" resultMap="denpyoResult">
+		SELECT
+			<include refid="columns" />,
+			<include refid="detailColumns"/>
+	    FROM
+			denpyo
+		LEFT OUTER JOIN
+			denpyo_detail dtl
+		ON
+			dtl.denpyo_id = denpyo.id
+		WHERE
+			denpyo.denpyo_date = #{string}
+	</select>
+	
+	<!--
+		1件登録 IDがnullの時はDBの機能で採番する 
+		useGeneratedKeys ... データベースの自動生成機能でPK値を取得するオプション
+		keyProperty ... PK項目を指定するオプション。処理後にパラメータオブジェクトのPK項目に取得したPK値を設定する。
+	 -->
+	<insert id="insert" parameterType="DenpyoDataModel" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO denpyo
+		(
+			<if test='id != null'>
+			id,
+			</if>
+			denpyo_no,
+			eda_no,
+			denpyo_date,
+			last_update_datetime,
+			last_update_employee_id
+		) VALUES (
+			<if test='id != null'>
+			#{id},
+			</if>
+			#{denpyo_no},
+			#{eda_no},
+			#{denpyo_date},
+			#{lastUpdateDatetime.value},
+			#{lastUpdateEmployeeId}
+		)
+	</insert>
+
+	<update id="update" parameterType="DenpyoDataModel">
+		UPDATE denpyo
+		SET
+			denpyo_no = #{denpyo_no},
+			eda_no = #{eda_no},
+			denpyo_date = #{denpyo_date},
+			last_update_datetime = #{last_update_datetime},
+			last_update_employee_id = #{last_update_employee_id}
+		WHERE
+			id = ${id}
+	</update>
+	<!--
+		履歴テーブル1件登録 - 元テーブルを受け取る場合
+	 -->
+	<insert id="insertHistory" useGeneratedKeys="true" keyProperty="savedata.id">
+		INSERT INTO denpyo_history
+		(
+			<!-- historyId 自動生成 -->
+			id,
+			denpyo_no,
+			eda_no,
+			denpyo_date,
+			last_update_datetime,
+			last_update_employee_id
+		) VALUES (
+			#{savedata.id},
+			#{savedata.denpyo_no},
+			#{savedata.eda_no},
+			#{savedata.denpyo_date},
+			#{savedata.lastUpdateDatetime.value},
+			#{savedata.lastUpdateEmployeeId}
+			Now(),
+			#{operation}
+		)
+	</insert>
+	<!--
+		履歴テーブル1件登録 - 元テーブルを受け取る場合
+	 -->
+	<insert id="insertHistoryById" useGeneratedKeys="true">
+		INSERT INTO denpyo_history
+		(
+			id,
+			denpyo_no,
+			eda_no,
+			denpyo_date,
+			last_update_datetime,
+			last_update_employee_id
+		)
+		SELECT 
+			denpyo.id,
+			denpyo.denpyo_no,
+			denpyo.eda_no,
+			denpyo.denpyo_date,
+			denpyo.last_update_datetime,
+			denpyo.last_update_employee_id
+			Now(),
+			#{operation}
+		FROM denpyo
+		WHERE denpyo.id = #{id}
+	</insert>
+
+</mapper>
