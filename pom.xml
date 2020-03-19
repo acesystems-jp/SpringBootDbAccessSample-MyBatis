@@ -62,12 +62,37 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- MyBatisのSQLを記載するMapperファイル（XMLファイル）をresoucesではなくsrc配下に置くための設定  -->
+			<plugin>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <executions>
+		            <execution>
+		                <id>copy-resources01</id>
+		                <phase>process-classes</phase>
+		                <goals>
+		                    <goal>copy-resources</goal>
+		                </goals>
+		                <configuration>
+		                    <outputDirectory>${basedir}/target/classes</outputDirectory>
+		                    <encoding>UTF-8</encoding>
+		                    <resources>
+		                        <resource>
+		                            <directory>${basedir}/src</directory>
+		                            <includes>
+		                                <include>**/*.xml</include>
+		                            </includes>
+		                        </resource>
+		                    </resources>
+		                </configuration>
+		            </execution>
+		      </executions>
 			</plugin>
 		</plugins>
 	</build>
