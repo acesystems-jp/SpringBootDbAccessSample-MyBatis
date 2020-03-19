@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryMapper">
+<mapper namespace="jp.co.acesystems.mybatissample.test.dbaccess.employee.EmployeeHistoryMapper">
 	<!--
 		idを指定して1件取得する 
 	 -->
-	<select id="findByBaseId" parameterType="int" resultType="jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryDataModel">
+	<select id="findByBaseId" parameterType="int" resultType="jp.co.acesystems.mybatissample.test.dbaccess.employee.EmployeeHistoryDataModel">
 		SELECT
 			id,
 			name,

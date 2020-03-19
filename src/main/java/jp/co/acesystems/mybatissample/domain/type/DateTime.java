@@ -41,10 +41,10 @@ public class DateTime {
 	}
 	
 	public String getJpString() {
-		return value.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH時mm分ss秒"));
+		return value.format(DateTimeFormatter.ofPattern("uuuu年MM月dd日 HH時mm分ss秒"));
 	}
 	
-	public static DateTime Now() {
+	public static DateTime now() {
 		return new DateTime(LocalDateTime.now());
 	}
 	
@@ -60,6 +60,7 @@ public class DateTime {
 	public DateTime plusMinutes(long minutes) {
 		return new DateTime(this.value.plusMinutes(minutes));
 	}
+	
 	public DateTime minusMinutes(long minutes) {
 		return new DateTime(this.value.minusMinutes(minutes));
 	}

@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.repository;
+package jp.co.acesystems.mybatissample.dbaccess;
 
 public enum HistoryOperation {
 	INSERT,

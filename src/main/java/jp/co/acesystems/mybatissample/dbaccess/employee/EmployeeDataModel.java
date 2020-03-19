@@ -1,7 +1,7 @@
-package jp.co.acesystems.mybatissample.repository.employee;
+package jp.co.acesystems.mybatissample.dbaccess.employee;
 
+import jp.co.acesystems.mybatissample.dbaccess.RecordWithSinglePk;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.RecordWithSinglePk;
 
 /**
  * 社員データモデル
@@ -28,6 +28,7 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	public EmployeeDataModel() {
 		
 	}
+	
 	/**
 	 * コンストラクタ
 	 * 全項目指定する
@@ -80,24 +81,28 @@ public class EmployeeDataModel implements RecordWithSinglePk<Integer> {
 	public Integer getId() {
 		return id;
 	}
+	
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+	
 	/**
 	 * @return the code
 	 */
 	public String getCode() {
 		return code;
 	}
+	
 	/**
 	 * @return the lastUpdateDatetime
 	 */
 	public DateTime getLastUpdateDatetime() {
 		return lastUpdateDatetime;
 	}
+	
 	/**
 	 * @return the lastUpdateEmployeeId
 	 */

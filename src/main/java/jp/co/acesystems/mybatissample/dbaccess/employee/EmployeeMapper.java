@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.repository.employee;
+package jp.co.acesystems.mybatissample.dbaccess.employee;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.co.acesystems.mybatissample.repository.MapperWithHistory;
+import jp.co.acesystems.mybatissample.dbaccess.MapperWithHistory;
 
 /**
  * 社員マスタを操作するMybatisのMapperInterface
@@ -40,16 +40,16 @@ interface EmployeeMapper extends MapperWithHistory<EmployeeDataModel, Integer> {
 	
 	/**
 	 * 1件登録
-	 * @param 登録データ
-	 * @return 
+	 * @param savedata
+	 * @return 登録後データ
 	 */
 	@Override
 	int insert(EmployeeDataModel savedata);
 	
 	/**
 	 * PKを条件に1件更新
-	 * @param 登録データ
-	 * @return
+	 * @param savedata
+	 * @return 登録後データ
 	 */
 	@Override
 	int update(EmployeeDataModel savedata);

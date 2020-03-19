@@ -2,8 +2,8 @@ package jp.co.acesystems.mybatissample.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jp.co.acesystems.mybatissample.dbaccess.employee.EmployeeDataModel;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataModel;
 
 /**
  * 社員クラス
@@ -26,6 +26,11 @@ public class Employee {
 		
 	}
 	
+	/**
+	 * コンストラクタ
+	 * DataModelからインスタンス生成
+	 * @param datamodel
+	 */
 	public Employee(EmployeeDataModel datamodel) {
 		this.id = datamodel.getId();
 		this.name = datamodel.getName();
@@ -64,12 +69,14 @@ public class Employee {
 	public DateTime getLastUpdateDatetimeByLocalDateTime() {
 		return lastUpdateDatetime;
 	}
+	
 	/**
 	 * @return 更新日時をISODatetimeフォーマット編集して返す
 	 */
 	public String getLastUpdateDatetime() {
 		return lastUpdateDatetime.getString();
 	}
+	
 	/**
 	 * @return 更新日時を日本語フォーマット編集して返す
 	 */

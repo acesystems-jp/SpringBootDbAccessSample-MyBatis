@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.acesystems.mybatissample.dbaccess.employee.EmployeeDataModel;
+import jp.co.acesystems.mybatissample.dbaccess.employee.EmployeeDataSource;
 import jp.co.acesystems.mybatissample.domain.entity.Employee;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataModel;
-import jp.co.acesystems.mybatissample.repository.employee.EmployeeDataSource;
 
 /**
  * 社員を操作するためのRestController
@@ -25,24 +25,34 @@ public class EmployeeRestConroller {
 		this.employeeDataSource = employeeDataSource;
 	}
 	
+	/**
+	 * 1件取得
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("")
 	public Employee getEmployee(@RequestParam("id") Integer id) {
 		var model = employeeDataSource.findById(id);
-		if(model.isEmpty()) {
+		if (model.isEmpty()) {
 			return null;
 		}
 		return new Employee(model.get());
 	}
 	
+	/**
+	 * 1件取得してコピー保存
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("copy")
 	public Employee copyEmployee(@RequestParam("id") Integer id) {
 		var model = employeeDataSource.findById(id);
-		if(model.isEmpty()) {
+		if (model.isEmpty()) {
 			return null;
 		}
 		
 		var ex = model.get();
-		var copy = new EmployeeDataModel(ex.getName(), ex.getCode(), DateTime.Now(), 99);
+		var copy = new EmployeeDataModel(ex.getName(), ex.getCode(), DateTime.now(), 99);
 		employeeDataSource.save(copy);
 		return new Employee(copy);
 	}

@@ -6,4 +6,4 @@
  *  Repositoryからのみ参照する
  * DataModel-レコードを表現するクラス。
  */
-package jp.co.acesystems.mybatissample.repository;
+package jp.co.acesystems.mybatissample.dbaccess;

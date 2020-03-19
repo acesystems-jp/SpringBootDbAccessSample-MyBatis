@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.repository;
+package jp.co.acesystems.mybatissample.dbaccess;
 
 /**
  * 単一PK項目を持つテーブルのレコードであることを示すInterface

@@ -1,21 +1,21 @@
-package jp.co.acesystems.mybatissample.repository;
+package jp.co.acesystems.mybatissample.dbaccess;
 
 /**
  * Insert、Updateと同時に履歴テーブルに1件書き込む処理を受け持つ
  * @author U0268
  *
  * @param <T> 対象テーブル（元テーブル）のデータモデル
- * @param <PK> 対象テーブルのPK項目の型
+ * @param <K> 対象テーブルのPK項目の型
  */
-public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
+public class HistorySaver<T extends RecordWithSinglePk<K>, K> {
 	
-	MapperWithHistory<T, PK> mapper;
+	MapperWithHistory<T, K> mapper;
 	
 	/**
 	 * コンストラクタ
 	 * @param mapper 履歴への書き込み処理を持つMapper
 	 */
-	public HistorySaver(MapperWithHistory<T, PK> mapper) {
+	public HistorySaver(MapperWithHistory<T, K> mapper) {
 		this.mapper = mapper;
 	}
 	
@@ -31,7 +31,7 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 		T working = (T)savedata.clone();
 		
 		// idが無ければInsert
-		if(savedata.getId() == null) {
+		if (savedata.getId() == null) {
 			mapper.insert(working); 
 			mapper.insertHistory((T)working.clone(), HistoryOperation.INSERT.toString());
 			return working;
@@ -39,7 +39,7 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 		
 		// idがあれば更新
 		int cnt = mapper.insertHistoryById(working.getId(), HistoryOperation.UPDATE.toString());
-		if(cnt > 0) {
+		if (cnt > 0) {
 			mapper.update(working);
 			return working;
 		}
@@ -54,7 +54,7 @@ public class HistorySaver<T extends RecordWithSinglePk<PK>, PK> {
 	 * レコードを1件削除
 	 * @param pk
 	 */
-	public void delete(final PK pk) {
+	public void delete(final K pk) {
 		
 		mapper.insertHistoryById(pk, HistoryOperation.DELETE.toString());
 		mapper.delete(pk);

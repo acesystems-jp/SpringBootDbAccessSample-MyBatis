@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.test.repository.employee;
+package jp.co.acesystems.mybatissample.test.dbaccess.employee;
 
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
 
@@ -31,42 +31,49 @@ public class EmployeeHistoryDataModel {
 	public Integer getHistoryId() {
 		return historyId;
 	}
+	
 	/**
 	 * @return the id
 	 */
 	public Integer getId() {
 		return id;
 	}
+	
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+	
 	/**
 	 * @return the code
 	 */
 	public String getCode() {
 		return code;
 	}
+	
 	/**
 	 * @return the lastUpdateDatetime
 	 */
 	public DateTime getLastUpdateDatetime() {
 		return lastUpdateDatetime;
 	}
+	
 	/**
 	 * @return the lastUpdateEmployeeId
 	 */
 	public Integer getLastUpdateEmployeeId() {
 		return lastUpdateEmployeeId;
 	}
+	
 	/**
 	 * @return the operationDatetime
 	 */
 	public DateTime getOperationDatetime() {
 		return operationDatetime;
 	}
+	
 	/**
 	 * @return the operation
 	 */

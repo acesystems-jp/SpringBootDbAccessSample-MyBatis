@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.test.repository.employee;
+package jp.co.acesystems.mybatissample.test.dbaccess.employee;
 
 import java.util.List;
 

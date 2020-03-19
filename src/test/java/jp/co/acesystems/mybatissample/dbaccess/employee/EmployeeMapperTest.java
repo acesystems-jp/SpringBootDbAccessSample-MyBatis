@@ -1,4 +1,4 @@
-package jp.co.acesystems.mybatissample.repository.employee;
+package jp.co.acesystems.mybatissample.dbaccess.employee;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+import jp.co.acesystems.mybatissample.dbaccess.HistoryOperation;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
-import jp.co.acesystems.mybatissample.repository.HistoryOperation;
-import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryDataModel;
-import jp.co.acesystems.mybatissample.test.repository.employee.EmployeeHistoryMapper;
+import jp.co.acesystems.mybatissample.test.dbaccess.employee.EmployeeHistoryDataModel;
+import jp.co.acesystems.mybatissample.test.dbaccess.employee.EmployeeHistoryMapper;
 
 /**
  * 社員テーブル処理のテスト
@@ -64,7 +64,7 @@ class EmployeeMapperTest {
 	void insert() {
 		EmployeeDataModel entity = new EmployeeDataModel("野口", "u1876", DateTime.of(2020, 3, 6, 16, 47, 23), 1);
 		// 登録前の件数
-		int count = source.findAll().size();
+		final int count = source.findAll().size();
 		
 		// 登録実行
 		EmployeeDataModel saved = source.save(entity);
@@ -90,7 +90,7 @@ class EmployeeMapperTest {
 	void update() throws InterruptedException {
 		
 		
-		DateTime now = DateTime.Now();
+		final DateTime now = DateTime.now();
 		
 		// 更新日時に差ができるよう10ミリ秒だけ待つ
 		TimeUnit.MILLISECONDS.sleep(10);
@@ -127,51 +127,51 @@ class EmployeeMapperTest {
 		assertEquals(2, history.size());
 		
 		// INSERTの履歴が登録されている
-		Optional<EmployeeHistoryDataModel> history_1
+		Optional<EmployeeHistoryDataModel> history1
 			= history.stream()
 			.filter(e -> e.getName().equals(entity.getName()))
 			.findFirst();
 		
-		assertTrue(history_1.isPresent());
-		assertEquals(entity.getCode(),  history_1.get().getCode());
-		assertEquals(HistoryOperation.INSERT.toString(), history_1.get().getOperation());
-		assertTrue(history_1.get().getOperationDatetime().isAfter(now));
+		assertTrue(history1.isPresent());
+		assertEquals(entity.getCode(),  history1.get().getCode());
+		assertEquals(HistoryOperation.INSERT.toString(), history1.get().getOperation());
+		assertTrue(history1.get().getOperationDatetime().isAfter(now));
 		
 
 		// UPDATE前の履歴が登録されている
-		Optional<EmployeeHistoryDataModel> history_2
+		Optional<EmployeeHistoryDataModel> history2
 			= history.stream()
 			.filter(e -> e.getOperation().equals(HistoryOperation.UPDATE.toString()))
 			.findFirst();
 		
-		assertTrue(history_2.isPresent());
-		assertEquals(entity.getCode(),  history_2.get().getCode());
-		assertEquals(entity.getName(), history_2.get().getName());
+		assertTrue(history2.isPresent());
+		assertEquals(entity.getCode(),  history2.get().getCode());
+		assertEquals(entity.getName(), history2.get().getName());
 		
 
 		// UPDATE後の履歴は入っていない
-		Optional<EmployeeHistoryDataModel> history_3
+		Optional<EmployeeHistoryDataModel> history3
 			= history.stream()
 			.filter(e -> e.getName().equals(update.getName()))
 			.findFirst();
 		
-		assertTrue(history_3.isEmpty());
+		assertTrue(history3.isEmpty());
 	}
 	
 	@Test
 	@DisplayName("登録処理、一意制約違反")
 	void duplicate() {
 		
-		EmployeeDataModel entity_1 = new EmployeeDataModel("松坂", "u1980", DateTime.of(2020, 3, 9, 13, 20, 15), 1);
-		EmployeeDataModel entity_2 = new EmployeeDataModel("藤川", "u1980", DateTime.of(2020, 3, 9, 13, 20, 16), 1);
+		EmployeeDataModel entity1 = new EmployeeDataModel("松坂", "u1980", DateTime.of(2020, 3, 9, 13, 20, 15), 1);
+		EmployeeDataModel entity2 = new EmployeeDataModel("藤川", "u1980", DateTime.of(2020, 3, 9, 13, 20, 16), 1);
 		
-		source.save(entity_1);
+		source.save(entity1);
 		
 		// 重複を検出
-		assertTrue(source.exists(entity_2));
+		assertTrue(source.exists(entity2));
 		
 		// 一意制約違反が発生したら DuplicateKeyException をThrowする
-		assertThrows(org.springframework.dao.DuplicateKeyException.class, () -> source.save(entity_2));
+		assertThrows(org.springframework.dao.DuplicateKeyException.class, () -> source.save(entity2));
 		
 	}
 }
