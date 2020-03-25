@@ -4,23 +4,38 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.acesystems.mybatissample.dbaccess.denpyo.DenpyoMapper">
 
-	<sql id="columns">
+	<sql id="select">
+	SELECT
 		denpyo.id AS id,
 		denpyo.denpyo_no AS denpyo_no,
 		denpyo.eda_no AS eda_no,
 		denpyo.denpyo_date AS denpyo_date,
 		denpyo.last_update_datetime AS "last_update_datetime.value",
-		denpyo.last_update_employee_id AS "last_update_employee_id"
-	</sql>	
-	<sql id="detailColumns">
+		denpyo.last_update_employee_id AS "last_update_employee_id",
 		dtl.id AS "details.id",
 		dtl.denpyo_id AS "details.denpyo_id",
 		dtl.row_no AS "details.row_no",
-		dtl.item_code AS "details.item_code",
 		dtl.suryo AS "details.suryo",
 		dtl.tanka AS "details.tanka",
 		dtl.last_update_datetime AS "details.last_update_datetime.value",
-		dtl.last_update_employee_id AS "details.last_update_employee_id"
+		dtl.last_update_employee_id AS "details.last_update_employee_id",
+		item.code AS "item.code",
+		item.name AS "item.name",
+		item.basic_tanka AS "item.basic_tanka",
+		item.last_update_datetime AS "item.last_update_datetime",
+		item.last_update_employee_id AS "item.last_update_employee_id"
+    FROM
+		denpyo
+	LEFT OUTER JOIN
+		denpyo_detail dtl
+	ON
+		dtl.denpyo_id = denpyo.id
+	LEFT OUTER JOIN
+		item item
+	ON
+		item.code = dtl.item_code
+	</sql>	
+	<sql id="detailColumns">
 	</sql>
 	
 	<resultMap type="DenpyoDataModel" id="denpyoResult">
@@ -34,11 +49,13 @@
 			<id column="details.id" property="id"/>
 			<result column="details.denpyo_id" property="denpyoId"/>
 			<result column="details..row_no" property="rowNo"/>
-			<result column="details.item_code" property="itemCode"/>
 			<result column="details.suryo" property="suryo"/>
 			<result column="details.tanka" property="tanka"/>
 			<result column="details.last_update_datetime.value" property="lastUpdateDatetime.value"/>
 			<result column="details.last_update_employee_id" property="lastUpdateEmployeeId"/>
+			<result column="item.code" property="item.code"/>
+			<result column="item.name" property="item.name"/>
+			<result column="item.basic_tanka" property="item.basicTanka"/>
 		</collection>
 	</resultMap>
 
@@ -46,34 +63,22 @@
 		idを指定して1件取得する 
 	 -->
 	<select id="findById" parameterType="int" resultMap="denpyoResult">
-		SELECT
-			<include refid="columns" />,
-			<include refid="detailColumns"/>
-	    FROM
-			denpyo
-		LEFT OUTER JOIN
-			denpyo_detail dtl
-		ON
-			dtl.denpyo_id = denpyo.id
+		<include refid="select" />
 		WHERE
 			denpyo.id = #{id}
+		ORDER BY
+			dtl.row_no
 	</select>
 
 	<!--
-		idを指定して1件取得する 
+		日付を指定して複数件取得する 
 	 -->
 	<select id="findByDate" parameterType="jp.co.acesystems.mybatissample.domain.type.Date" resultMap="denpyoResult">
-		SELECT
-			<include refid="columns" />,
-			<include refid="detailColumns"/>
-	    FROM
-			denpyo
-		LEFT OUTER JOIN
-			denpyo_detail dtl
-		ON
-			dtl.denpyo_id = denpyo.id
+		<include refid="select" />
 		WHERE
 			denpyo.denpyo_date = #{string}
+		ORDER BY
+			denpyo.denpyo_no , dtl.row_no
 	</select>
 	
 	<!--

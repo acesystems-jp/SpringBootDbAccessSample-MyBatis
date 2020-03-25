@@ -36,12 +36,22 @@ public class DateTime {
 		this.value = value;
 	}
 	
+	/**
+	 * IOS形式で日時を返す
+	 * （yyyy-MM-ddTHH:mm:ss）
+	 * @return
+	 */
 	public String getString() {
 		return value.format(DateTimeFormatter.ISO_DATE_TIME);
 	}
 	
+	/**
+	 * 日本語形式で日時を返す
+	 * （yyyy年MM月dd日 HH時mm分ss秒）
+	 * @return
+	 */
 	public String getJpString() {
-		return value.format(DateTimeFormatter.ofPattern("uuuu年MM月dd日 HH時mm分ss秒"));
+		return value.format(DateTimeFormatter.ofPattern("uuuu年M月d日 HH時m分s秒"));
 	}
 	
 	public static DateTime now() {

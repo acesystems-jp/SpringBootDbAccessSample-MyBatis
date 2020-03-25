@@ -1,8 +1,8 @@
 
 insert into item(code, name, basic_tanka, last_update_datetime, last_update_employee_id)
- values('A001', 'マニピュレータ-指', 120, '2020-3-5 16:21:00', 1);
+ values('A001', 'マニピュレータ-指', 120.0, '2020-3-5 16:21:00', 1);
 insert into item(code, name, basic_tanka, last_update_datetime, last_update_employee_id)
- values('A002', 'マニピュレータ-手首', 600, '2020-3-5 16:21:00', 1);
+ values('A002', 'マニピュレータ-手首', 600.0, '2020-3-5 16:21:00', 1);
 
 
 insert into denpyo(id, denpyo_no, eda_no, denpyo_date, last_update_datetime, last_update_employee_id)

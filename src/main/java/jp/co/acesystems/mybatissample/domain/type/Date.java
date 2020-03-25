@@ -20,7 +20,7 @@ public class Date {
 	}
 	
 	public String getJpString() {
-		return value.format(DateTimeFormatter.ofPattern("uuuu年MM月dd日"));
+		return value.format(DateTimeFormatter.ofPattern("uuuu年M月d日"));
 	}
 	
 	public static Date today() {

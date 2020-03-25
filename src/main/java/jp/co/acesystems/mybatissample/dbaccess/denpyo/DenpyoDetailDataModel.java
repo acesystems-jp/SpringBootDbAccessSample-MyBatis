@@ -3,13 +3,14 @@ package jp.co.acesystems.mybatissample.dbaccess.denpyo;
 import java.math.BigDecimal;
 
 import jp.co.acesystems.mybatissample.dbaccess.RecordWithSinglePk;
+import jp.co.acesystems.mybatissample.dbaccess.item.ItemDataModel;
 import jp.co.acesystems.mybatissample.domain.type.DateTime;
 
 public class DenpyoDetailDataModel implements RecordWithSinglePk<Integer> {
 	private Integer id;
 	private Integer denpyoId;
 	private Integer rowNo;
-	private String itemCode;
+	private ItemDataModel item;
 	private Integer suryo;
 	private BigDecimal tanka;
 	/** 更新日時 */
@@ -26,7 +27,7 @@ public class DenpyoDetailDataModel implements RecordWithSinglePk<Integer> {
 			Integer id,
 			Integer denpyoId,
 			Integer rowNo,
-			String itemCode,
+			ItemDataModel item,
 			Integer suryo,
 			BigDecimal tanka,
 			DateTime lastUpdateDatetime,
@@ -34,7 +35,7 @@ public class DenpyoDetailDataModel implements RecordWithSinglePk<Integer> {
 		this.id = id;
 		this.denpyoId = denpyoId;
 		this.rowNo = rowNo;
-		this.itemCode = itemCode;
+		this.item = item;
 		this.suryo = suryo;
 		this.tanka	= tanka;
 		this.lastUpdateDatetime = lastUpdateDatetime;
@@ -47,7 +48,7 @@ public class DenpyoDetailDataModel implements RecordWithSinglePk<Integer> {
 				id,
 				denpyoId,
 				rowNo,
-				itemCode,
+				item,
 				suryo,
 				tanka,
 				lastUpdateDatetime,
@@ -78,8 +79,8 @@ public class DenpyoDetailDataModel implements RecordWithSinglePk<Integer> {
 	/**
 	 * @return the itemCode
 	 */
-	public String getItemCode() {
-		return itemCode;
+	public ItemDataModel getItem() {
+		return item;
 	}
 
 	/**
