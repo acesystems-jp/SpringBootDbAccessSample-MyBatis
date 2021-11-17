@@ -11,3 +11,5 @@ mybatis:
   # SQL項目(主にSELECT句)のアンダースコアをキャメルケースに変換して自動マッピングするための設定
   configuration:
     map-underscore-to-camel-case: true
+
+server.port: 8100
